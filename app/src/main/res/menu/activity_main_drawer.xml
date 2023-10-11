@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_joinCircle"
+            android:title="Juntar ao grupo"
+            android:icon="@drawable/add_friend"/>
+        <item
+            android:id="@+id/nav_myCircle"
+            android:title="Meu grupo"
+            android:icon="@drawable/friends"/>
+
+        <item
+            android:id="@+id/nav_inviteMembers"
+            android:title="Convidar membros"
+            android:icon="@drawable/add_group"/>
+
+        <item
+            android:id="@+id/nav_shareLoc"
+            android:title="Compartilhar localização"
+            android:icon="@drawable/share"/>
+        <item
+            android:id="@+id/nav_map"
+            android:title="Customizar mapa"
+            android:icon="@drawable/map"/>
+
+        <item
+            android:id="@+id/nav_signOut"
+            android:title="Sair"
+            android:icon="@drawable/logout"/>
+    </group>
+</menu>

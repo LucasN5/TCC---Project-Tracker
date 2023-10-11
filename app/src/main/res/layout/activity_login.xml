@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="@drawable/background_image">
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="328dp"
+        android:layout_height="51dp"
+        android:layout_above="@+id/button"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="77dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/lock_24"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Digite sua senha"
+        android:inputType="textPassword"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="#6E6E70" />
+
+    <EditText
+        android:id="@+id/editTextTextEmailAddress"
+        android:layout_width="328dp"
+        android:layout_height="51dp"
+        android:layout_above="@+id/editTextTextPassword"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="37dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/email_24"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Digite seu email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="#6E6E70" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="136dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="313dp"
+        android:onClick="login"
+        android:text="Entrar" />
+
+    <TextView
+        android:id="@+id/forgot_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button"
+        android:layout_alignEnd="@+id/editTextTextPassword"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="44dp"
+        android:cursorVisible="true"
+        android:text="Esqueceu sua senha?"
+        android:textColor="#2E3033"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+</RelativeLayout>
