@@ -71,11 +71,11 @@ class ChangePasswordActivity : AppCompatActivity() {
                             FirebaseAuth.getInstance().currentUser!!.updatePassword(new_pass.text.toString())
                         }
                         else{
-                            Toast.makeText(applicationContext, "Unmatched with new password!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext, "Senha diferente da senha atual !", Toast.LENGTH_SHORT).show()
                         }
                     }
                     else{
-                        Toast.makeText(applicationContext,"Your current password is incorrect!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext,"Sua senha atual está incorreta !", Toast.LENGTH_SHORT).show()
                     }
                 }
 
