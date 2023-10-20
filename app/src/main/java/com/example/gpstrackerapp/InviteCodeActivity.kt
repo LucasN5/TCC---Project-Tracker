@@ -115,12 +115,12 @@ class InviteCodeActivity : AppCompatActivity() {
         user?.sendEmailVerification()
             ?.addOnCompleteListener { task->
                 if (task.isSuccessful){
-                    Toast.makeText(applicationContext, "Email sent for vertification", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Email enviado para verificação", Toast.LENGTH_SHORT).show()
                     finish()
                     auth.signOut()
                 }
                 else{
-                    Toast.makeText(applicationContext, "Could not send email!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Não foi possível enviar o email", Toast.LENGTH_SHORT).show()
                 }
             }
     }

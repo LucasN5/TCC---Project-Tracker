@@ -187,10 +187,11 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
                 }
                 R.id.nav_shareLoc -> {
                     var myIntent: Intent = Intent(Intent.ACTION_SEND)
+                    val label = "Localização do Usuário"
                     myIntent.setType("text/plain")
                     myIntent.putExtra(
                         Intent.EXTRA_TEXT,
-                        "My Location is: " + "https://www.google.com/maps/0" + latLng.latitude + "," + latLng.longitude + ",17z"
+                        "My Location is: " + "https://www.google.com/maps/@"+ latLng.latitude + "," + latLng.longitude + ",17z" +  "$label"
                     )
                     startActivity(Intent.createChooser(myIntent, "Share using: "))
                 }
