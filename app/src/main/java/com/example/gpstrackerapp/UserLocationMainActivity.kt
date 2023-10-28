@@ -1,8 +1,10 @@
 package com.example.gpstrackerapp
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +18,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.gms.common.ConnectionResult
@@ -27,6 +30,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -35,7 +40,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.squareup.picasso.Picasso
 
 class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
@@ -191,7 +195,7 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
                     myIntent.setType("text/plain")
                     myIntent.putExtra(
                         Intent.EXTRA_TEXT,
-                        "My Location is: " + "https://www.google.com/maps/@"+ latLng.latitude + "," + latLng.longitude + ",17z" +  "$label"
+                        "Minha localização: " + "https://www.google.com/maps/@"+ latLng.latitude + "," + latLng.longitude + ",17z"
                     )
                     startActivity(Intent.createChooser(myIntent, "Share using: "))
                 }
@@ -224,12 +228,12 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
         mMap = googleMap
 
         // Khởi tạo đối tượng LatLng cho vị trí của Việt Nam
-        val vietnamLatLng = LatLng(14.0583, 108.2772)
+        val currentLocationDefault = LatLng(-23.9730641, -46.3844852)
 
         // Thiết lập bản đồ hiển thị ở vị trí này và thu phóng một chút
         val cameraUpdate = CameraPosition.Builder()
-            .target(vietnamLatLng)
-            .zoom(5f)
+            .target(currentLocationDefault)
+            .zoom(12f)
             .tilt(30f)
             .bearing(0f)
             .build()
@@ -261,7 +265,8 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
 
         mMap.uiSettings.isZoomControlsEnabled = true
 
-// Hiển thị vị trí của bạn bè khi nhấn ở card_layout
+
+        //Exibi localização dos amigos Exibe a localização dos amigos quando clicados em card_layout
         var intent = intent
         var lat = intent.getDoubleExtra("lat", 0.00000000000000000000000000000000)
         var lng = intent.getDoubleExtra("lng", 0.00000000000000000000000000000000)
@@ -316,8 +321,8 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
             latLng = LatLng(location.latitude, location.longitude)
             var options = MarkerOptions()
             options.position(latLng)
-            options.title("Current Location")
-
+            options.title("Localização Atual")
+            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
             butMyLoc.setOnClickListener { task ->
                 getMyLocation(latLng)
             }
@@ -360,7 +365,7 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
                                                                 .toDouble()
                                                         var memberCir_mail =
                                                             membercheck.child(child.toString())
-                                                                .child("email")
+                                                                .child("name")
                                                         memberCir_mail.addListenerForSingleValueEvent(
                                                             object : ValueEventListener {
                                                                 override fun onDataChange(snapshot4: DataSnapshot) {
@@ -373,8 +378,33 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
                                                                                 snapshot4.getValue()
                                                                                     .toString()
                                                                             )
+                                                                            .icon(bitmapFromDrawable(mMap, R.drawable.baseline_location_on_24))
                                                                     )
 
+                                                                }
+                                                                private fun bitmapFromDrawable(
+                                                                    context: GoogleMap, imageID: Int): BitmapDescriptor {
+                                                                    // Criar um drawable a partir do ID da imagem.
+                                                                    val imageDrawable: Drawable? = ContextCompat.getDrawable(this@UserLocationMainActivity, imageID)
+
+                                                                    // Definir os limites do drawable vetorial.
+                                                                    imageDrawable?.setBounds(0, 0, imageDrawable.intrinsicWidth, imageDrawable.intrinsicHeight)
+
+                                                                    // Criar um bitmap para o drawable.
+                                                                    val bitmap = Bitmap.createBitmap(
+                                                                        imageDrawable?.intrinsicWidth ?: 0,
+                                                                        imageDrawable?.intrinsicHeight ?: 0,
+                                                                        Bitmap.Config.ARGB_8888
+                                                                    )
+
+                                                                    // Adicionar o bitmap ao canvas.
+                                                                    val canvas = Canvas(bitmap)
+
+                                                                    // Desenhar o drawable vetorial no canvas.
+                                                                    imageDrawable?.draw(canvas)
+
+                                                                    // Retornar o BitmapDescriptor a partir do bitmap gerado.
+                                                                    return BitmapDescriptorFactory.fromBitmap(bitmap)
                                                                 }
 
                                                                 override fun onCancelled(error: DatabaseError) {

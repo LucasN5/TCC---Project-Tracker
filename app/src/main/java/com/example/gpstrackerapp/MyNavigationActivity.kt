@@ -1,7 +1,11 @@
 package com.example.gpstrackerapp
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -10,6 +14,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.gpstrackerapp.databinding.ActivityMyNavigationBinding
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.firebase.database.DatabaseError
 
 class MyNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -40,9 +47,37 @@ class MyNavigationActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+
+        val sydney = LatLng(-23.9, -46.3)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney").icon(bitmapFromDrawable(mMap, R.drawable.baseline_location_user)))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+    private fun bitmapFromDrawable(
+        context: GoogleMap, imageID: Int): BitmapDescriptor {
+        // Criar um drawable a partir do ID da imagem.
+        val imageDrawable: Drawable? = ContextCompat.getDrawable(this, imageID)
+
+        // Definir os limites do drawable vetorial.
+        imageDrawable?.setBounds(0, 0, imageDrawable.intrinsicWidth, imageDrawable.intrinsicHeight)
+
+        // Criar um bitmap para o drawable.
+        val bitmap = Bitmap.createBitmap(
+            imageDrawable?.intrinsicWidth ?: 0,
+            imageDrawable?.intrinsicHeight ?: 0,
+            Bitmap.Config.ARGB_8888
+        )
+
+        // Adicionar o bitmap ao canvas.
+        val canvas = Canvas(bitmap)
+
+        // Desenhar o drawable vetorial no canvas.
+        imageDrawable?.draw(canvas)
+
+        // Retornar o BitmapDescriptor a partir do bitmap gerado.
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
+    }
+
+    fun onCancelled(error: DatabaseError) {
+        TODO("Not yet implemented")
     }
 }
