@@ -332,22 +332,34 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
             var member =
                 FirebaseDatabase.getInstance().getReference().child("Users").child(user.uid)
                     .child("CircleMembers")
-            member.addValueEventListener(object : ValueEventListener {
+            member.addListenerForSingleValueEvent(object : ValueEventListener {
+
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    mMap.clear()
                     for (ds in snapshot.children) {
+
                         val child = ds.key
                         Log.i("snap", child.toString())
                         var membercheck =
                             FirebaseDatabase.getInstance().getReference().child("Users")
-                        membercheck.addValueEventListener(object : ValueEventListener {
+
+                        membercheck.addValueEventListener(
+                            object : ValueEventListener {
+
                             override fun onDataChange(snapshot1: DataSnapshot) {
+
                                 for (ds1 in snapshot1.children) {
+
                                     val child1 = ds1.key
                                     Log.d("user", child1.toString())
+
                                     if (child == child1) {
                                         var inforMemberCirLat =
-                                            FirebaseDatabase.getInstance().getReference()
-                                                .child("Users").child(child.toString()).child("lat")
+                                            FirebaseDatabase.getInstance()
+                                                .getReference()
+                                                .child("Users")
+                                                .child(child.toString())
+                                                .child("lat")
                                         inforMemberCirLat.addValueEventListener(object :
                                             ValueEventListener {
                                             override fun onDataChange(snapshot2: DataSnapshot) {
@@ -368,6 +380,7 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
                                                                 .child("name")
                                                         memberCir_mail.addListenerForSingleValueEvent(
                                                             object : ValueEventListener {
+
                                                                 override fun onDataChange(snapshot4: DataSnapshot) {
                                                                     val memberCir_lo =
                                                                         LatLng(latmember, lngmember)
@@ -445,9 +458,8 @@ class UserLocationMainActivity : AppCompatActivity(), OnMapReadyCallback,
                     TODO("Not yet implemented")
                 }
             })
-            if (currentMarker != null) {
-                currentMarker!!.remove()
-            }
+            currentMarker?.remove()
+
             currentMarker = mMap.addMarker(options)
         }
 
